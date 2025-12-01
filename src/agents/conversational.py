@@ -4,12 +4,20 @@ SYSTEM_PROMPT = """You are a Conversational AI Agent designed to interact natura
 
 def check_if_ready(user_input, history):
     """Determines if the user has provided enough information for a full analysis."""
+    
+    # Hard heuristic: If input is very short, it's likely just a greeting or not enough context.
+    if len(user_input.strip()) < 10:
+        return False
+
     client = get_client()
     
     router_prompt = """You are an Intent Classifier. Your job is to determine if the user has provided a concrete idea, problem, or topic that is ready for deep analysis.
 
-    - Return "READY" if the user has described an idea, a startup concept, a problem to solve, or a specific topic they want analyzed.
-    - Return "NOT_READY" if the user is just saying hello, asking how you are, giving a short greeting, or if the input is too vague to analyze (e.g., "I have an idea" without saying what it is).
+    CRITICAL RULES:
+    - Return "NOT_READY" for greetings like "hi", "hello", "hey", "good morning".
+    - Return "NOT_READY" for vague statements like "I have an idea", "help me", "start".
+    - Return "NOT_READY" if the input is less than 5 words and doesn't contain a specific noun/topic.
+    - ONLY return "READY" if the user has clearly described a specific concept, business idea, or topic (e.g., "flying car", "coffee delivery drone", "AI for lawyers").
 
     User Input: "{}"
     

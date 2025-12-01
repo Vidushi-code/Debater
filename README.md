@@ -66,7 +66,7 @@ The system employs a structured pipeline to analyze user inputs:
     Open a new terminal and run:
     ```bash
     cd frontend
-    python3 -m http.server 8000
+    python3 server.py
     ```
 
 3.  **Access the App**:
