@@ -51,6 +51,18 @@ async function getAgentOutputs(userInput) {
         return data;
     } catch (error) {
         console.error('API Error:', error);
+        // Show error to user
+        const btn = document.getElementById('analyzeBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `<i class="fas fa-exclamation-circle"></i> Error: ${error.message}`;
+        btn.style.background = '#ef4444';
+
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = '';
+            btn.disabled = false;
+        }, 3000);
+
         throw error;
     }
 }
@@ -84,10 +96,15 @@ async function handleAnalyze() {
         return;
     }
 
-    if (userInput.length < 10) {
-        showNotification('Please provide more details about your idea (at least 10 characters)', 'warning');
+    // Validation
+    if (!userInput) {
+        showNotification('Please describe your idea first!', 'error');
+        ideaInput.focus();
         return;
     }
+
+    // Removed length check to allow for chat interactions (e.g., "Hello")
+    // The backend Intent Classifier will handle short inputs.
 
     // Disable button and show loading state
     analyzeBtn.disabled = true;

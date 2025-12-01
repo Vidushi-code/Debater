@@ -8,44 +8,53 @@
 }
 
 :root {
-    /* Color Palette - Dark AI Theme */
-    --primary-color: #00f0ff;
-    --secondary-color: #7c3aed;
-    --good-color: #00ff88;
-    --devil-color: #ff0055;
-    --research-color: #00b4ff;
-    --conversational-color: #a78bfa;
-    --text-dark: #e5e7eb;
-    --text-light: #9ca3af;
-    --bg-dark: #0a0a0f;
-    --bg-card: #1a1a2e;
-    --white: #ffffff;
-    --shadow: rgba(0, 240, 255, 0.15);
-    
+    /* Color Palette - Modern White Theme */
+    --primary-color: #2563eb;
+    /* Royal Blue */
+    --secondary-color: #4f46e5;
+    /* Indigo */
+    --good-color: #059669;
+    /* Emerald Green */
+    --devil-color: #dc2626;
+    /* Red */
+    --research-color: #0284c7;
+    /* Sky Blue */
+    --conversational-color: #7c3aed;
+    /* Violet */
+
+    --text-dark: #111827;
+    /* Gray 900 */
+    --text-light: #4b5563;
+    /* Gray 600 */
+    --bg-body: #f3f4f6;
+    /* Gray 100 */
+    --bg-card: #ffffff;
+    /* White */
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-color: rgba(37, 99, 235, 0.1);
+
     /* Spacing */
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
     --spacing-md: 2rem;
     --spacing-lg: 3rem;
     --spacing-xl: 4rem;
-    
+
     /* Border Radius */
-    --radius-sm: 10px;
-    --radius-md: 20px;
-    --radius-lg: 30px;
-    
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+
     /* Transitions */
-    --transition: all 0.3s ease;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background: #0a0a0f;
-    background-image: 
-        radial-gradient(at 0% 0%, rgba(0, 240, 255, 0.1) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(124, 58, 237, 0.1) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(0, 240, 255, 0.1) 0px, transparent 50%),
-        radial-gradient(at 0% 100%, rgba(124, 58, 237, 0.1) 0px, transparent 50%);
+    font-family: 'Inter', 'Poppins', sans-serif;
+    background: var(--bg-body);
     color: var(--text-dark);
     line-height: 1.6;
     overflow-x: hidden;
@@ -61,10 +70,10 @@ body {
    Navigation Bar
    =================================== */
 .navbar {
-    background: rgba(26, 26, 46, 0.8);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 4px 20px rgba(0, 240, 255, 0.2);
-    border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -153,26 +162,25 @@ body {
 }
 
 .input-section {
-    background: rgba(26, 26, 46, 0.6);
-    backdrop-filter: blur(20px);
+    background: var(--bg-card);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
-    box-shadow: 0 10px 40px rgba(0, 240, 255, 0.2);
-    border: 1px solid rgba(0, 240, 255, 0.2);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     animation: fadeInUp 0.8s ease 0.4s backwards;
 }
 
 .idea-input {
     width: 100%;
     padding: var(--spacing-sm);
-    border: 2px solid rgba(0, 240, 255, 0.3);
+    border: 2px solid #e5e7eb;
     border-radius: var(--radius-sm);
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1rem;
     resize: vertical;
     transition: var(--transition);
     margin-bottom: var(--spacing-sm);
-    background: rgba(10, 10, 15, 0.8);
+    background: #f9fafb;
     color: var(--text-dark);
 }
 
@@ -251,20 +259,19 @@ body {
 }
 
 .workflow-step {
-    background: rgba(26, 26, 46, 0.6);
-    backdrop-filter: blur(20px);
+    background: var(--bg-card);
     padding: var(--spacing-md);
     border-radius: var(--radius-md);
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15);
-    border: 1px solid rgba(0, 240, 255, 0.1);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     transition: var(--transition);
 }
 
 .workflow-step:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 240, 255, 0.3);
-    border-color: rgba(0, 240, 255, 0.3);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
 }
 
 .step-number {
@@ -311,22 +318,32 @@ body {
 }
 
 .agent-card {
-    background: rgba(26, 26, 46, 0.6);
-    backdrop-filter: blur(20px);
+    background: var(--bg-card);
     border-radius: var(--radius-md);
     padding: var(--spacing-md);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(0, 240, 255, 0.2);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     transition: var(--transition);
     opacity: 0;
     transform: translateY(20px);
     animation: slideUp 0.6s ease forwards;
 }
 
-.agent-card:nth-child(1) { animation-delay: 0.1s; }
-.agent-card:nth-child(2) { animation-delay: 0.2s; }
-.agent-card:nth-child(3) { animation-delay: 0.3s; }
-.agent-card:nth-child(4) { animation-delay: 0.4s; }
+.agent-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.agent-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.agent-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.agent-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
 
 .agent-card:hover {
     transform: translateY(-5px);
@@ -387,10 +404,21 @@ body {
     color: var(--text-dark);
 }
 
-.good-agent .card-title { color: var(--good-color); }
-.devil-agent .card-title { color: var(--devil-color); }
-.research-agent .card-title { color: var(--research-color); }
-.conversational-agent .card-title { color: var(--conversational-color); }
+.good-agent .card-title {
+    color: var(--good-color);
+}
+
+.devil-agent .card-title {
+    color: var(--devil-color);
+}
+
+.research-agent .card-title {
+    color: var(--research-color);
+}
+
+.conversational-agent .card-title {
+    color: var(--conversational-color);
+}
 
 .agent-output {
     color: var(--text-dark);
@@ -402,15 +430,15 @@ body {
    Final Conclusion Section
    =================================== */
 .final-conclusion {
-    background: rgba(26, 26, 46, 0.6);
-    backdrop-filter: blur(20px);
+    background: var(--bg-card);
     border-radius: var(--radius-md);
     padding: var(--spacing-lg);
-    box-shadow: 0 10px 40px rgba(0, 240, 255, 0.3), 0 0 60px rgba(0, 240, 255, 0.1);
-    border: 2px solid rgba(0, 240, 255, 0.3);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     opacity: 0;
     transform: translateY(20px);
     animation: slideUp 0.6s ease 0.5s forwards;
+    border-top: 4px solid var(--primary-color);
 }
 
 .conclusion-header {
@@ -447,12 +475,12 @@ body {
    Footer
    =================================== */
 .footer {
-    background: rgba(26, 26, 46, 0.8);
+    background: #ffffff;
     color: var(--text-light);
     text-align: center;
     padding: var(--spacing-md) 0;
     margin-top: var(--spacing-xl);
-    border-top: 1px solid rgba(0, 240, 255, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 /* ===================================
@@ -463,6 +491,7 @@ body {
         opacity: 0;
         transform: translateY(-30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -474,6 +503,7 @@ body {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -494,27 +524,27 @@ body {
     .hero-title {
         font-size: 2rem;
     }
-    
+
     .hero-subtitle {
         font-size: 1rem;
     }
-    
+
     .nav-links {
         gap: var(--spacing-sm);
     }
-    
+
     .logo span {
         font-size: 1rem;
     }
-    
+
     .section-title {
         font-size: 2rem;
     }
-    
+
     .outputs-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .workflow-grid {
         grid-template-columns: 1fr;
     }
