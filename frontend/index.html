@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multi-Perspective AI Analyst</title>
     <link rel="icon" href="data:,"> <!-- Suppress favicon request -->
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Marked.js for Markdown Rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
+
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
@@ -41,17 +47,27 @@
             <div class="hero-content">
                 <h1 class="hero-title">Your Idea, Analyzed From Every Angle</h1>
                 <p class="hero-subtitle">
-                    A multi-agent AI system that gives you optimistic, critical, research-based, 
+                    A multi-agent AI system that gives you optimistic, critical, research-based,
                     and conversational insights—then delivers a final conclusion.
                 </p>
-                
+
+                <!-- Chat Section (Moved ABOVE input for standard chat feel) -->
+                <div class="chat-section" id="chatSection">
+                    <div class="chat-card">
+                        <div class="chat-header">
+                            <span class="chat-icon">💬</span>
+                            <h3 class="chat-title">Conversational Assistant</h3>
+                        </div>
+                        <div class="chat-body">
+                            <div id="chatHistory" class="chat-history">
+                                <!-- Messages will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="input-section" id="demo">
-                    <textarea 
-                        id="ideaInput" 
-                        class="idea-input" 
-                        placeholder="Describe your idea..."
-                        rows="4"
-                    ></textarea>
+                    <textarea id="ideaInput" class="idea-input" placeholder="Describe your idea..." rows="4"></textarea>
                     <button class="analyze-btn" id="analyzeBtn">
                         <i class="fas fa-magic"></i>
                         Analyze Idea
@@ -84,6 +100,8 @@
             </div>
         </div>
     </section>
+
+    <!-- Chat Section Moved to Hero -->
 
     <!-- Agent Output Section -->
     <section class="agent-outputs" id="agentOutputs">
@@ -157,4 +175,5 @@
     <!-- Custom Scripts -->
     <script src="script.js"></script>
 </body>
+
 </html>

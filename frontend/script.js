@@ -108,30 +108,94 @@ async function handleAnalyze() {
 
     // Disable button and show loading state
     analyzeBtn.disabled = true;
-    analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+    analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Thinking...';
+
+    // Hide "How It Works" and Hero Text to focus on the interaction
+    document.getElementById('how-it-works').style.display = 'none';
+    document.querySelector('.hero-title').style.display = 'none';
+    document.querySelector('.hero-subtitle').style.display = 'none';
 
     try {
-        // Get agent outputs from mock backend
-        const outputs = await getAgentOutputs(userInput);
+        // 1. Classify Intent
+        const classifyResponse = await fetch('http://localhost:8001/classify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idea: userInput })
+        });
+        const classification = await classifyResponse.json();
 
-        // Display results
-        displayResults(outputs);
+        if (classification.type === 'chat') {
+            // 2a. Chat Mode
+            // Show user message immediately
+            appendMessage(userInput, 'user');
 
-        // Scroll to results
-        setTimeout(() => {
-            agentOutputsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
+            // Clear input immediately for better UX
+            ideaInput.value = '';
 
-        showNotification('Analysis complete!', 'success');
+            const chatResponse = await fetch('http://localhost:8001/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idea: userInput })
+            });
+            const chatData = await chatResponse.json();
+
+            appendMessage(chatData.response, 'agent');
+
+        } else {
+            // 2b. Analysis Mode
+            analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+
+            const analyzeResponse = await fetch('http://localhost:8001/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idea: userInput })
+            });
+            const analysisData = await analyzeResponse.json();
+
+            displayAnalysis(analysisData);
+            showNotification('Analysis complete!', 'success');
+        }
 
     } catch (error) {
-        console.error('Analysis failed:', error);
-        showNotification('Analysis failed. Please try again.', 'error');
+        console.error('Operation failed:', error);
+        showNotification('Something went wrong. Please try again.', 'error');
     } finally {
         // Reset button
         analyzeBtn.disabled = false;
         analyzeBtn.innerHTML = '<i class="fas fa-magic"></i> Analyze Idea';
     }
+}
+
+function appendMessage(text, sender) {
+    // Ensure chat section is visible
+    agentOutputsSection.classList.remove('active');
+    const chatSection = document.getElementById('chatSection');
+    chatSection.classList.add('active');
+
+    const history = document.getElementById('chatHistory');
+    const bubble = document.createElement('div');
+    bubble.className = `message message-${sender}`;
+
+    // Parse Markdown for the message content
+    bubble.innerHTML = marked.parse(text);
+
+    history.appendChild(bubble);
+
+    // Scroll to bottom
+    history.scrollTop = history.scrollHeight;
+
+    // Scroll section into view if needed (only on first message)
+    if (history.children.length <= 2) {
+        setTimeout(() => {
+            chatSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+    }
+}
+
+function displayAnalysis(outputs) {
+    // Hide chat, show analysis
+    document.getElementById('chatSection').classList.remove('active');
+    displayResults(outputs); // Existing function
 }
 
 // ===================================
@@ -148,12 +212,12 @@ function displayResults(outputs) {
 
     // Small delay to allow DOM to reset
     setTimeout(() => {
-        // Populate outputs
-        goodAgentOutput.textContent = outputs.goodAgent;
-        devilAgentOutput.textContent = outputs.devilAgent;
-        researchAgentOutput.textContent = outputs.researchAgent;
-        conversationalAgentOutput.textContent = outputs.conversationalAgent;
-        finalConclusionOutput.textContent = outputs.finalConclusion;
+        // Populate outputs with parsed Markdown
+        goodAgentOutput.innerHTML = marked.parse(outputs.goodAgent);
+        devilAgentOutput.innerHTML = marked.parse(outputs.devilAgent);
+        researchAgentOutput.innerHTML = marked.parse(outputs.researchAgent);
+        conversationalAgentOutput.innerHTML = marked.parse(outputs.conversationalAgent);
+        finalConclusionOutput.innerHTML = marked.parse(outputs.finalConclusion);
 
         // Show section with animations
         agentOutputsSection.classList.add('active');

@@ -14,7 +14,8 @@ Your job is to:
 - Ensure the final answer is actionable and insightful
 - Maintain objectivity while being helpful
 
-Format your response with clear sections and provide a final recommendation or conclusion."""
+Format your response with clear sections and provide a final recommendation or conclusion.
+CRITICAL: Keep the final synthesis under 200 words. Use bullet points for key takeaways."""
 
 def run_composer_agent(user_input, research, positives, flaws):
     """Response Composer Agent - synthesizes all perspectives"""
