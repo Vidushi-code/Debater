@@ -6,19 +6,24 @@ A sophisticated AI system that evaluates ideas through multiple distinct perspec
 
 The system employs a structured pipeline to analyze user inputs:
 
-1.  **Research Agent** 🔍
+1.  **Intent Classifier (Router)** 🚦
+    *   Determines if the user is just chatting or providing a concrete idea.
+    *   *Chat Mode*: Responds naturally to greetings and questions.
+    *   *Analysis Mode*: Triggers the full multi-agent pipeline when a valid idea is detected.
+
+2.  **Research Agent** 🔍
     *   Analyzes the idea for historical context, similar startups, and evidence-based patterns.
     *   *Output*: Historical data and market context.
 
-2.  **Parallel Analysis** ⚡
+3.  **Parallel Analysis** ⚡
     *   **Optimist Agent** 👍: Identifies strengths, opportunities, and potential benefits.
     *   **Devil's Advocate** ⚠️: Critically examines flaws, risks, and potential failure points.
     *   *Note*: These agents run simultaneously for efficiency.
 
-3.  **Response Composer** 📝
+4.  **Response Composer** 📝
     *   Synthesizes the Research, Positive, and Critical outputs into a balanced, comprehensive report.
 
-4.  **Conversational Agent** 💬
+5.  **Conversational Agent** 💬
     *   Delivers the final analysis in a natural, empathetic, and context-aware manner, maintaining conversation history.
 
 ## 🚀 Getting Started (Backend Only)
@@ -58,4 +63,6 @@ To start the interactive CLI backend:
 ./venv/bin/python3 main.py
 ```
 
-Type your idea when prompted, and watch the agents analyze it in real-time!
+### Usage
+*   **Chat**: Start by saying "Hello" or asking questions. The agent will chat with you.
+*   **Analyze**: When you're ready, describe your idea (e.g., "I want to build a drone delivery service for coffee"). The system will detect your intent and trigger the full analysis!
