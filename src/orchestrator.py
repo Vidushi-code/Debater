@@ -12,15 +12,25 @@ class MultiAgentSystem:
         # Initialize conversational agent history with system prompt
         self.conversational_history = [{"role": "system", "content": CONVERSATIONAL_PROMPT}]
     
+    def check_intent(self, user_input):
+        """Public method to check intent"""
+        from src.agents.conversational import check_if_ready
+        return "analysis" if check_if_ready(user_input, self.conversational_history) else "chat"
+
+    def run_chat(self, user_input):
+        """Public method to run chat mode"""
+        from src.agents.conversational import run_chat_mode
+        return run_chat_mode(user_input, self.conversational_history)
+
     def process_user_input(self, user_input):
         """Main workflow - orchestrates all agents"""
         
         # 0. Check Intent
-        from src.agents.conversational import check_if_ready, run_chat_mode
+        intent = self.check_intent(user_input)
         
-        if not check_if_ready(user_input, self.conversational_history):
+        if intent == "chat":
             print("💬 Conversational Agent chatting...")
-            return run_chat_mode(user_input, self.conversational_history)
+            return self.run_chat(user_input)
 
         # 1. Research (Sequential)
         print("\n🔍 Research Agent analyzing...")

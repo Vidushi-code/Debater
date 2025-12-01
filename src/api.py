@@ -21,23 +21,39 @@ system = MultiAgentSystem()
 class IdeaRequest(BaseModel):
     idea: str
 
+@app.post("/classify")
+async def classify_intent(request: IdeaRequest):
+    try:
+        intent = system.check_intent(request.idea)
+        return {"type": intent}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/chat")
+async def chat_mode(request: IdeaRequest):
+    try:
+        response = system.run_chat(request.idea)
+        return {"response": response}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/analyze")
 async def analyze_idea(request: IdeaRequest):
     try:
-        # Check intent first (using the orchestrator's logic indirectly via process_user_input)
-        # Note: process_user_input now returns a dict (full context) OR a string (chat response)
-        # We need to handle both cases.
+        # Force analysis path (orchestrator will still run check_intent internally if we call process_user_input,
+        # but we can assume the frontend only calls this if intent is 'analysis' or user forced it).
+        # However, process_user_input handles both. Let's keep using it but expect a dict.
         
         result = system.process_user_input(request.idea)
         
         if isinstance(result, str):
-            # It was just a chat response (Router said NOT_READY)
+            # Fallback if it decided to chat anyway (shouldn't happen if frontend logic is correct, but good for safety)
             return {
                 "type": "chat",
                 "conversationalAgent": result
             }
         else:
-            # It was a full analysis
+            # Full analysis
             return {
                 "type": "analysis",
                 "researchAgent": result.get("research"),

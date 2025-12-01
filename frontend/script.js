@@ -108,30 +108,71 @@ async function handleAnalyze() {
 
     // Disable button and show loading state
     analyzeBtn.disabled = true;
-    analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+    analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Thinking...';
 
     try {
-        // Get agent outputs from mock backend
-        const outputs = await getAgentOutputs(userInput);
+        // 1. Classify Intent
+        const classifyResponse = await fetch('http://localhost:8001/classify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idea: userInput })
+        });
+        const classification = await classifyResponse.json();
 
-        // Display results
-        displayResults(outputs);
+        if (classification.type === 'chat') {
+            // 2a. Chat Mode
+            const chatResponse = await fetch('http://localhost:8001/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idea: userInput })
+            });
+            const chatData = await chatResponse.json();
 
-        // Scroll to results
-        setTimeout(() => {
-            agentOutputsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
+            displayChat(chatData.response);
+            showNotification('Message sent!', 'success');
 
-        showNotification('Analysis complete!', 'success');
+        } else {
+            // 2b. Analysis Mode
+            analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+
+            const analyzeResponse = await fetch('http://localhost:8001/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idea: userInput })
+            });
+            const analysisData = await analyzeResponse.json();
+
+            displayAnalysis(analysisData);
+            showNotification('Analysis complete!', 'success');
+        }
 
     } catch (error) {
-        console.error('Analysis failed:', error);
-        showNotification('Analysis failed. Please try again.', 'error');
+        console.error('Operation failed:', error);
+        showNotification('Something went wrong. Please try again.', 'error');
     } finally {
         // Reset button
         analyzeBtn.disabled = false;
         analyzeBtn.innerHTML = '<i class="fas fa-magic"></i> Analyze Idea';
     }
+}
+
+function displayChat(message) {
+    // Hide analysis, show chat
+    agentOutputsSection.classList.remove('active');
+    document.getElementById('chatSection').classList.add('active');
+
+    const chatOutput = document.getElementById('chatOutput');
+    chatOutput.textContent = message;
+
+    setTimeout(() => {
+        document.getElementById('chatSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
+}
+
+function displayAnalysis(outputs) {
+    // Hide chat, show analysis
+    document.getElementById('chatSection').classList.remove('active');
+    displayResults(outputs); // Existing function
 }
 
 // ===================================
