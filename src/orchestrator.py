@@ -53,4 +53,10 @@ class MultiAgentSystem:
         
         # 5. Conversational Delivery
         print("💬 Conversational Agent delivering response...")
-        return run_conversational_agent(user_input, final_response, self.conversational_history)
+        conversational_response = run_conversational_agent(user_input, final_response, self.conversational_history)
+        
+        # Update context with final conversational response
+        self.session_context["conversational_response"] = conversational_response
+        
+        # Return the full context so the API can use it
+        return self.session_context

@@ -55,14 +55,23 @@ The system employs a structured pipeline to analyze user inputs:
         CEREBRAS_API_KEY=your_api_key_here
         ```
 
-### Running the Application
+### Running the Application (Full Stack)
 
-To start the interactive CLI backend:
+1.  **Start the Backend API**:
+    ```bash
+    uvicorn src.api:app --reload --port 8001
+    ```
 
-```bash
-./venv/bin/python3 main.py
-```
+2.  **Start the Frontend**:
+    Open a new terminal and run:
+    ```bash
+    cd frontend
+    python3 -m http.server 8000
+    ```
+
+3.  **Access the App**:
+    Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ### Usage
-*   **Chat**: Start by saying "Hello" or asking questions. The agent will chat with you.
-*   **Analyze**: When you're ready, describe your idea (e.g., "I want to build a drone delivery service for coffee"). The system will detect your intent and trigger the full analysis!
+*   **Chat**: Start by saying "Hello". The backend will detect this as chat and respond conversationally.
+*   **Analyze**: Describe a concrete idea. The backend will trigger the full multi-agent analysis and return structured results to the UI.
