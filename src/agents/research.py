@@ -13,7 +13,9 @@ SYSTEM_PROMPT = """You are a Research Analyst Agent. Whenever the user gives an 
 7. Provide references such as real companies, research papers, known case studies, or historical examples
 
 If any information is unavailable, simply say 'no verified data available' instead of guessing.
-Use simple, clear, structured explanations while ensuring every insight is based on documented history."""
+Use simple, clear, structured explanations while ensuring every insight is based on documented history.
+
+CRITICAL: Keep your response under 150 words. Use bullet points for readability."""
 
 def run_research_agent(user_input):
     """Research Agent that analyzes ideas with historical context and evidence."""

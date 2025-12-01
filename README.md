@@ -4,29 +4,24 @@ A sophisticated AI system that evaluates ideas through multiple distinct perspec
 
 ## 🔄 Workflow
 
-The system employs a structured pipeline to analyze user inputs:
+The system employs a smart, interactive pipeline:
 
-1.  **Intent Classifier (Router)** 🚦
-    *   Determines if the user is just chatting or providing a concrete idea.
-    *   *Chat Mode*: Responds naturally to greetings and questions.
-    *   *Analysis Mode*: Triggers the full multi-agent pipeline when a valid idea is detected.
+1.  **Intent Classification** 🚦
+    *   **Chat Mode**: For greetings ("hi") or casual questions, the system responds instantly with a conversational agent.
+    *   **Analysis Mode**: When a concrete idea is detected, the full multi-agent analysis is triggered.
 
-2.  **Research Agent** 🔍
-    *   Analyzes the idea for historical context, similar startups, and evidence-based patterns.
-    *   *Output*: Historical data and market context.
+2.  **Multi-Agent Analysis** 🧠
+    *   **Research Agent** 🔍: Provides historical context and market data.
+    *   **Optimist Agent** 👍: Highlights strengths and opportunities.
+    *   **Devil's Advocate** ⚠️: Critically examines risks and flaws.
+    *   **Response Composer** 📝: Synthesizes all perspectives into a balanced report.
 
-3.  **Parallel Analysis** ⚡
-    *   **Optimist Agent** 👍: Identifies strengths, opportunities, and potential benefits.
-    *   **Devil's Advocate** ⚠️: Critically examines flaws, risks, and potential failure points.
-    *   *Note*: These agents run simultaneously for efficiency.
+3.  **Frontend Experience** 💻
+    *   **Interactive Chat**: A familiar chat interface with history and message bubbles.
+    *   **Smart Layout**: Chat history appears above the input; analysis results appear below.
+    *   **Rich Formatting**: Full Markdown support for bold text, lists, and headers.
 
-4.  **Response Composer** 📝
-    *   Synthesizes the Research, Positive, and Critical outputs into a balanced, comprehensive report.
-
-5.  **Conversational Agent** 💬
-    *   Delivers the final analysis in a natural, empathetic, and context-aware manner, maintaining conversation history.
-
-## 🚀 Getting Started (Backend Only)
+## 🚀 Getting Started
 
 ### Prerequisites
 *   Python 3.8+
@@ -55,7 +50,7 @@ The system employs a structured pipeline to analyze user inputs:
         CEREBRAS_API_KEY=your_api_key_here
         ```
 
-### Running the Application (Full Stack)
+### Running the Application
 
 1.  **Start the Backend API**:
     ```bash
@@ -63,7 +58,7 @@ The system employs a structured pipeline to analyze user inputs:
     ```
 
 2.  **Start the Frontend**:
-    Open a new terminal and run:
+    Open a new terminal:
     ```bash
     cd frontend
     python3 server.py
@@ -73,5 +68,6 @@ The system employs a structured pipeline to analyze user inputs:
     Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ### Usage
-*   **Chat**: Start by saying "Hello". The backend will detect this as chat and respond conversationally.
-*   **Analyze**: Describe a concrete idea. The backend will trigger the full multi-agent analysis and return structured results to the UI.
+*   **Chat**: Type "Hi" or "Hello" to chat with the assistant.
+*   **Analyze**: Type a business idea (e.g., "Flying cars") to trigger the full analysis.
+*   **Review**: See the breakdown from different agents and a final conclusion.

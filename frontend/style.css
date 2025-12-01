@@ -642,8 +642,80 @@ body {
     }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-    .outputs-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+
+
+/* ===================================
+   Markdown Content Styles
+   =================================== */
+.agent-output h1,
+.agent-output h2,
+.agent-output h3,
+.message h1,
+.message h2,
+.message h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.agent-output h1,
+.message h1 {
+    font-size: 1.5rem;
+}
+
+.agent-output h2,
+.message h2 {
+    font-size: 1.25rem;
+}
+
+.agent-output h3,
+.message h3 {
+    font-size: 1.1rem;
+}
+
+.agent-output p,
+.message p {
+    margin-bottom: 0.5rem;
+}
+
+.agent-output ul,
+.agent-output ol,
+.message ul,
+.message ol {
+    margin-bottom: 0.5rem;
+    padding-left: 1.2rem;
+}
+
+.agent-output li,
+.message li {
+    margin-bottom: 0.2rem;
+}
+
+/* Nested lists */
+.agent-output ul ul,
+.agent-output ol ol,
+.agent-output ul ol,
+.agent-output ol ul {
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+}
+
+.agent-output strong,
+.message strong {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Specific fix for message bubbles to ensure text color contrast */
+.message-user h1,
+.message-user h2,
+.message-user h3,
+.message-user strong {
+    color: white;
+}
+
+.message-user a {
+    color: #e0e7ff;
+    text-decoration: underline;
 }

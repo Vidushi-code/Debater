@@ -175,7 +175,9 @@ function appendMessage(text, sender) {
     const history = document.getElementById('chatHistory');
     const bubble = document.createElement('div');
     bubble.className = `message message-${sender}`;
-    bubble.textContent = text;
+
+    // Parse Markdown for the message content
+    bubble.innerHTML = marked.parse(text);
 
     history.appendChild(bubble);
 
@@ -210,12 +212,12 @@ function displayResults(outputs) {
 
     // Small delay to allow DOM to reset
     setTimeout(() => {
-        // Populate outputs
-        goodAgentOutput.textContent = outputs.goodAgent;
-        devilAgentOutput.textContent = outputs.devilAgent;
-        researchAgentOutput.textContent = outputs.researchAgent;
-        conversationalAgentOutput.textContent = outputs.conversationalAgent;
-        finalConclusionOutput.textContent = outputs.finalConclusion;
+        // Populate outputs with parsed Markdown
+        goodAgentOutput.innerHTML = marked.parse(outputs.goodAgent);
+        devilAgentOutput.innerHTML = marked.parse(outputs.devilAgent);
+        researchAgentOutput.innerHTML = marked.parse(outputs.researchAgent);
+        conversationalAgentOutput.innerHTML = marked.parse(outputs.conversationalAgent);
+        finalConclusionOutput.innerHTML = marked.parse(outputs.finalConclusion);
 
         // Show section with animations
         agentOutputsSection.classList.add('active');
