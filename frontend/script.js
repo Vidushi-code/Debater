@@ -110,8 +110,10 @@ async function handleAnalyze() {
     analyzeBtn.disabled = true;
     analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Thinking...';
 
-    // Hide "How It Works" to focus on the interaction
+    // Hide "How It Works" and Hero Text to focus on the interaction
     document.getElementById('how-it-works').style.display = 'none';
+    document.querySelector('.hero-title').style.display = 'none';
+    document.querySelector('.hero-subtitle').style.display = 'none';
 
     try {
         // 1. Classify Intent

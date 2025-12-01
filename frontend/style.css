@@ -305,7 +305,7 @@ body {
    Chat Section
    =================================== */
 .chat-section {
-    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
     display: none;
     width: 100%;
 }
