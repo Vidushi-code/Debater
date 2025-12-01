@@ -110,6 +110,9 @@ async function handleAnalyze() {
     analyzeBtn.disabled = true;
     analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Thinking...';
 
+    // Hide "How It Works" to focus on the interaction
+    document.getElementById('how-it-works').style.display = 'none';
+
     try {
         // 1. Classify Intent
         const classifyResponse = await fetch('http://localhost:8001/classify', {
@@ -121,6 +124,12 @@ async function handleAnalyze() {
 
         if (classification.type === 'chat') {
             // 2a. Chat Mode
+            // Show user message immediately
+            appendMessage(userInput, 'user');
+
+            // Clear input immediately for better UX
+            ideaInput.value = '';
+
             const chatResponse = await fetch('http://localhost:8001/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -128,8 +137,7 @@ async function handleAnalyze() {
             });
             const chatData = await chatResponse.json();
 
-            displayChat(chatData.response);
-            showNotification('Message sent!', 'success');
+            appendMessage(chatData.response, 'agent');
 
         } else {
             // 2b. Analysis Mode
@@ -156,17 +164,28 @@ async function handleAnalyze() {
     }
 }
 
-function displayChat(message) {
-    // Hide analysis, show chat
+function appendMessage(text, sender) {
+    // Ensure chat section is visible
     agentOutputsSection.classList.remove('active');
-    document.getElementById('chatSection').classList.add('active');
+    const chatSection = document.getElementById('chatSection');
+    chatSection.classList.add('active');
 
-    const chatOutput = document.getElementById('chatOutput');
-    chatOutput.textContent = message;
+    const history = document.getElementById('chatHistory');
+    const bubble = document.createElement('div');
+    bubble.className = `message message-${sender}`;
+    bubble.textContent = text;
 
-    setTimeout(() => {
-        document.getElementById('chatSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 300);
+    history.appendChild(bubble);
+
+    // Scroll to bottom
+    history.scrollTop = history.scrollHeight;
+
+    // Scroll section into view if needed (only on first message)
+    if (history.children.length <= 2) {
+        setTimeout(() => {
+            chatSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+    }
 }
 
 function displayAnalysis(outputs) {
