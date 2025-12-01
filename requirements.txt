@@ -1,2 +1,4 @@
 cerebras-cloud-sdk
 python-dotenv
+fastapi
+uvicorn

@@ -20,23 +20,51 @@ const finalConclusionOutput = document.getElementById('finalConclusionOutput');
  * @param {string} userInput - The user's idea description
  * @returns {Object} - Contains outputs from all agents
  */
-function getAgentOutputs(userInput) {
-    // Simulate API delay
-    return new Promise((resolve) => {
+async function getAgentOutputs(userInput) {
+    try {
+        const response = await fetch('http://localhost:8001/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ idea: userInput })
+        });
+
+        if (!response.ok) {
+            throw new Error(`API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Handle chat-only response
+        if (data.type === 'chat') {
+            return {
+                conversationalAgent: data.conversationalAgent,
+                // Empty others to hide them or show specific state
+                goodAgent: '',
+                devilAgent: '',
+                researchAgent: '',
+                finalConclusion: ''
+            };
+        }
+
+        return data;
+    } catch (error) {
+        console.error('API Error:', error);
+        // Show error to user
+        const btn = document.getElementById('analyzeBtn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `<i class="fas fa-exclamation-circle"></i> Error: ${error.message}`;
+        btn.style.background = '#ef4444';
+
         setTimeout(() => {
-            resolve({
-                goodAgent: `✨ Excellent idea! "${userInput.substring(0, 50)}..." shows great potential.\n\nPositive aspects:\n• Addresses a real market need\n• Has scalable potential\n• Aligns with current trends\n• Could generate multiple revenue streams\n\nThis concept demonstrates innovation and forward-thinking. With proper execution, it could become a market leader in its category.`,
-                
-                devilAgent: `⚠️ Critical Analysis:\n\nWhile the idea "${userInput.substring(0, 50)}..." has merit, several challenges need addressing:\n\n• Market saturation - Similar solutions already exist\n• High initial capital requirement\n• Steep learning curve for target users\n• Regulatory hurdles may slow implementation\n• Customer acquisition costs could be prohibitive\n\nRecommendation: Conduct thorough feasibility study before proceeding.`,
-                
-                researchAgent: `📈 Market Research Insights:\n\nBased on historical data and current trends:\n\n• Market size: Growing at 15-20% annually\n• Competition: 12+ established players\n• Target demographic: Primarily 25-45 age group\n• Success rate: Similar ventures show 35% success\n\nCase Study: Companies like [Example Co.] achieved 3x growth using similar models between 2020-2023.\n\nKey trend: Digital transformation is accelerating adoption in this space.`,
-                
-                conversationalAgent: `💭 Let's break this down in simple terms:\n\nSo, you're thinking about "${userInput.substring(0, 40)}..."\n\nThat's interesting! Here's what I'm wondering:\n\n1. Who exactly would use this?\n2. What makes it different from what's already out there?\n3. How would you actually make money from it?\n\nThe core idea seems solid, but I'd love to understand more about your target users. Have you thought about how you'd reach them? Also, what's your timeline looking like?`,
-                
-                finalConclusion: `🧠 COMPREHENSIVE ANALYSIS & RECOMMENDATION\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nIDEA SUMMARY:\n"${userInput.substring(0, 100)}..."\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n✅ STRENGTHS:\n• Strong market potential with 15-20% annual growth\n• Addresses genuine user needs\n• Scalable business model\n• Aligns with current digital transformation trends\n\n❌ CHALLENGES:\n• Competitive market with established players\n• Requires significant initial investment\n• Customer acquisition strategy needs refinement\n• Regulatory considerations require attention\n\n📊 MARKET VIABILITY: 7/10\nBased on research, similar ventures show 35% success rate with proper execution.\n\n🎯 RECOMMENDED NEXT STEPS:\n\n1. Conduct detailed market research and competitor analysis\n2. Develop minimum viable product (MVP) for testing\n3. Identify and validate target customer segments\n4. Create financial projections for 3-5 year timeline\n5. Explore strategic partnerships to reduce entry barriers\n6. Address regulatory requirements proactively\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nFINAL VERDICT:\nProceed with CAUTIOUS OPTIMISM. The idea has merit and market potential, but success will depend on thorough preparation, adequate funding, and strategic execution. Start with MVP development and validate assumptions before full-scale launch.\n\nRisk Level: MODERATE\nRecommended Action: VALIDATE & ITERATE`
-            });
-        }, 1500); // Simulate 1.5 second API delay
-    });
+            btn.innerHTML = originalText;
+            btn.style.background = '';
+            btn.disabled = false;
+        }, 3000);
+
+        throw error;
+    }
 }
 
 // ===================================
@@ -60,37 +88,42 @@ ideaInput.addEventListener('keydown', (e) => {
  */
 async function handleAnalyze() {
     const userInput = ideaInput.value.trim();
-    
+
     // Validation
     if (!userInput) {
         showNotification('Please describe your idea first!', 'error');
         ideaInput.focus();
         return;
     }
-    
-    if (userInput.length < 10) {
-        showNotification('Please provide more details about your idea (at least 10 characters)', 'warning');
+
+    // Validation
+    if (!userInput) {
+        showNotification('Please describe your idea first!', 'error');
+        ideaInput.focus();
         return;
     }
-    
+
+    // Removed length check to allow for chat interactions (e.g., "Hello")
+    // The backend Intent Classifier will handle short inputs.
+
     // Disable button and show loading state
     analyzeBtn.disabled = true;
     analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
-    
+
     try {
         // Get agent outputs from mock backend
         const outputs = await getAgentOutputs(userInput);
-        
+
         // Display results
         displayResults(outputs);
-        
+
         // Scroll to results
         setTimeout(() => {
             agentOutputsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 300);
-        
+
         showNotification('Analysis complete!', 'success');
-        
+
     } catch (error) {
         console.error('Analysis failed:', error);
         showNotification('Analysis failed. Please try again.', 'error');
@@ -112,7 +145,7 @@ function displayResults(outputs) {
     // Clear previous results and reset animations
     agentOutputsSection.classList.remove('active');
     clearOutputs();
-    
+
     // Small delay to allow DOM to reset
     setTimeout(() => {
         // Populate outputs
@@ -121,7 +154,7 @@ function displayResults(outputs) {
         researchAgentOutput.textContent = outputs.researchAgent;
         conversationalAgentOutput.textContent = outputs.conversationalAgent;
         finalConclusionOutput.textContent = outputs.finalConclusion;
-        
+
         // Show section with animations
         agentOutputsSection.classList.add('active');
     }, 100);
@@ -154,7 +187,7 @@ function showNotification(message, type = 'info') {
         <i class="fas fa-${getNotificationIcon(type)}"></i>
         <span>${message}</span>
     `;
-    
+
     // Add styles
     Object.assign(notification.style, {
         position: 'fixed',
@@ -172,10 +205,10 @@ function showNotification(message, type = 'info') {
         animation: 'slideInRight 0.3s ease',
         fontWeight: '500'
     });
-    
+
     // Append to body
     document.body.appendChild(notification);
-    
+
     // Remove after 3 seconds
     setTimeout(() => {
         notification.style.animation = 'slideOutRight 0.3s ease';
