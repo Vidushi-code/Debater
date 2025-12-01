@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Perspective AI Analyst</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>Multi-Perspective AI Analyst</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#demo">Try Demo</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Your Idea, Analyzed From Every Angle</h1>
+                <p class="hero-subtitle">
+                    A multi-agent AI system that gives you optimistic, critical, research-based, 
+                    and conversational insights—then delivers a final conclusion.
+                </p>
+                
+                <div class="input-section" id="demo">
+                    <textarea 
+                        id="ideaInput" 
+                        class="idea-input" 
+                        placeholder="Describe your idea..."
+                        rows="4"
+                    ></textarea>
+                    <button class="analyze-btn" id="analyzeBtn">
+                        <i class="fas fa-magic"></i>
+                        Analyze Idea
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="workflow-grid">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <h3>Submit Your Idea</h3>
+                    <p>Describe any business idea, project, or concept you want to analyze</p>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <h3>Multi-Agent Analysis</h3>
+                    <p>Four specialized AI agents analyze from different perspectives</p>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <h3>Get Final Conclusion</h3>
+                    <p>Receive a comprehensive synthesis of all insights</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agent Output Section -->
+    <section class="agent-outputs" id="agentOutputs">
+        <div class="container">
+            <div class="outputs-grid">
+                <!-- Good Agent Card -->
+                <div class="agent-card good-agent">
+                    <div class="card-header">
+                        <span class="card-icon">⭐</span>
+                        <h3 class="card-title">Good Agent</h3>
+                    </div>
+                    <div class="card-body">
+                        <p id="goodAgentOutput" class="agent-output"></p>
+                    </div>
+                </div>
+
+                <!-- Devil's Advocate Card -->
+                <div class="agent-card devil-agent">
+                    <div class="card-header">
+                        <span class="card-icon">⚡</span>
+                        <h3 class="card-title">Devil's Advocate</h3>
+                    </div>
+                    <div class="card-body">
+                        <p id="devilAgentOutput" class="agent-output"></p>
+                    </div>
+                </div>
+
+                <!-- Research Agent Card -->
+                <div class="agent-card research-agent">
+                    <div class="card-header">
+                        <span class="card-icon">📊</span>
+                        <h3 class="card-title">Research Agent</h3>
+                    </div>
+                    <div class="card-body">
+                        <p id="researchAgentOutput" class="agent-output"></p>
+                    </div>
+                </div>
+
+                <!-- Conversational Agent Card -->
+                <div class="agent-card conversational-agent">
+                    <div class="card-header">
+                        <span class="card-icon">💬</span>
+                        <h3 class="card-title">Conversational Agent</h3>
+                    </div>
+                    <div class="card-body">
+                        <p id="conversationalAgentOutput" class="agent-output"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final Conclusion Card -->
+            <div class="final-conclusion" id="finalConclusion">
+                <div class="conclusion-header">
+                    <span class="conclusion-icon">🧠</span>
+                    <h2 class="conclusion-title">Final Conclusion</h2>
+                </div>
+                <div class="conclusion-body">
+                    <p id="finalConclusionOutput" class="conclusion-output"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Multi-Perspective AI Analyst. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Custom Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
